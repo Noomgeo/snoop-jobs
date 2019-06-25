@@ -2,6 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import emailRegex from './emailRegex';
+import goldRecord from './goldRecord.png';
 
 const checkEmail = (email) => emailRegex.test(email);
 
@@ -9,21 +10,27 @@ class App extends React.Component {
   
   state = {
     rapName: '',
-    albumSales: 42000,
+    albumSales: 1000,
     email: '',
     isEmailValid: false,
   }
 
   setRapName = (event) => {
     this.setState({
-      rapName: event.target.value
+      rapName: event.target.value,
     })
   }
 
   setEmail = (event)=> {
     this.setState({
       email: event.target.value,
-      isEmailValid: checkEmail(event.target.value)
+      isEmailValid: checkEmail(event.target.value),
+    })
+  }
+
+  setAlbumSales = (event)=> {
+    this.setState({
+      albumSales: Math.max(0, event.target.value),
     })
   }
 
@@ -32,7 +39,6 @@ class App extends React.Component {
   }
 
   render(){
-    console.log(this.state.isEmailValid);
     return (
       <div className='App'>
         <div className='form'>
@@ -53,6 +59,24 @@ class App extends React.Component {
                   )
               }
             </label>
+          </div>
+
+          <div className='card swanky-input-container'>
+            <label>
+              <input type='number' step={100000} value={this.state.albumSales} onChange={this.setAlbumSales} />
+              <span className='title'>Album Sales</span>
+            </label>
+            <div className='goldRecords'>
+              {
+                [1,2,3,4]
+                .filter(x => x*1000000 < this.state.albumSales)
+                .map(n => (
+                  <div className='goldRecord' key={n}>
+                    <img src={goldRecord}/>
+                  </div>
+                    ))
+              }
+            </div>
           </div>
 
           <div className='done-container'>
