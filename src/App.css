@@ -1,33 +1,137 @@
 .App {
-  text-align: center;
+  text-align: left;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.done-button {
+  background-color: white;
+  padding: 15px;
+  margin: 10px;
+  font-size: 24px;
+  border-radius: 5px;
+  user-select: none;
+  border: none;
+  box-shadow:
+    0px 1px 3px 0px rgba(0,0,0,0.2),
+    0px 1px 1px 0px rgba(0,0,0,0.14),
+    0px 2px 1px -1px rgba(0,0,0,0.12);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.done-button:focus {
+  outline: none;
+}
+
+.done-button:active {
+  box-shadow: none;
+  border: 2px inset lightgray;
+}
+
+.card {
+  min-width: 300px;
+  min-height: 80px;
+
+  margin: 10px;
+
+  box-shadow:
+  0px 1px 3px 0px rgba(0,0,0,0.2),
+  0px 1px 1px 0px rgba(0,0,0,0.14),
+  0px 2px 1px -1px rgba(0,0,0,0.12);
+}
+
+.form {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.done-container {
+  flex-basis: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.done-container input {
+  position: absolute;
+  
+  bottom: 2px;
+  left: 2px;
+}
+
+.swanky-input-container {
+  position: relative;
+}
+
+.swanky-input-container input {
+  position: absolute;
+  
+  bottom: 2px;
+  left: 2px;
+
+  border: none;
+  border-bottom: 1px solid black;
+
+  width: calc(100% - 14px);
+  height: 60px;
+
+  font-size: 22px;
+  padding-left: 10px;
+  outline: none;
+  transition: font-size 0.25s;
+}
+
+.swanky-input-container input:focus {
+  outline: none;
+  font-size: 20px;
+  border-bottom: 2px solid green;
+}
+
+.swanky-input-container span.title {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  cursor: pointer;
+  
+  font-weight: 300;
+  font-size: 14px;
+
+  user-select: none;
+
+  z-index: 15;
+
+  transition: color 1s, font-size 0.25s;
+
+}
+
+.swanky-input-container input:focus + span.title,
+.swanky-input-container:hover span.title {
+  color: green;
+  font-size: 12px;
+}
+
+.email-invalid {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+
+  font-size: 12px;
+  color: red;
+  text-align: right;
+}
+
+.swanky-input-container input:focus ~ span.email-invalid {
+  display: none;
+}
+
+.swanky-input-container input:not(:focus) ~ span.email-invalid {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+
+  font-size: 12px;
+  color: red;
+  text-align: right;
+}
+
+done-button:hover {
+  background-color: #eee;
 }
