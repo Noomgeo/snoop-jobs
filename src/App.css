@@ -132,8 +132,73 @@
   text-align: right;
 }
 
-done-button:hover {
+.done-button:hover {
   background-color: #eee;
+}
+
+.modal-open {
+  position: fixed;
+  top: 20vh;
+  height: 40vh;
+  left: 20vw;
+  width: 60vw;
+  background-color: lightgrey;
+  border-radius: 5px;
+  padding: 8px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-open button {
+  background-color: white;
+  border-radius: 5px;
+  stroke-width: 3px;
+}
+
+.modal-open .x-button {
+  fill: white;
+  stroke: black;
+  stroke-width: 5px;
+
+  width: 20px;
+  height: 20px;
+
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.modal-open .x-button circle,
+.modal-open .x-button path {
+  cursor: pointer;
+}
+
+.modal-closed{
+  display: none;
+}
+
+.modal-open svg.x-button *:hover
+
+.modal-closed {
+  display: none;
+}
+
+.modal-open .x-button:hover path {
+  stroke: red;
+}
+
+.modal-shade{
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+
+  z-index: 420;
+  background-color: #3338;
 }
 
 .goldRecords {
@@ -154,4 +219,25 @@ done-button:hover {
 .goldRecord img {
   width: 50px;
   height: 50px;
+}
+
+.album-dropdown-base {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+
+  padding: 30px 25px 10px 10px;
+}
+
+.album-dropdown-base img {
+  height: 45px;
+  margin-top: -5px;
+  width: 45px;
+}
+
+.album-dropdown-base .dropdown-arrow {
+  position: absolute;
+  right: 5px;
+  user-select: none;
 }
