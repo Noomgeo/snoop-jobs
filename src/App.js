@@ -3,7 +3,9 @@ import logo from './logo.svg';
 import './App.css';
 import emailRegex from './emailRegex';
 import goldRecord from './goldRecord.png';
-import snoopAlbums from './snoopAlbums.js'
+import snoopAlbums from './snoopAlbums.js';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const checkEmail = (email) => emailRegex.test(email);
 
@@ -16,7 +18,8 @@ class App extends React.Component {
     isEmailValid: false,
     modalOpen: false,
     topAlbum: snoopAlbums[0],
-    albumMenuOpen: false
+    albumMenuOpen: false,
+    startDate: null
   }
 
   setRapName = (event) => {
@@ -41,15 +44,38 @@ class App extends React.Component {
   toggleModal = ()=>
     this.setState({
       modalOpen: !this.state.modalOpen
-  })
+    })
 
   toggleAlbumMenu =()=>
     this.setState({
       albumMenuOpen: !this.state.albumMenuOpen
     })
 
+  selectAlbum = (album)=>
+    this.setState({
+      topAlbum: album,
+      albumMenuOpen: false
+    })
+
+    setStartDate = (date)=> this.setState({ startDate: date})
+
   done = (event)=> {
-    console.log('Done applying');
+    this.toggleModal();
+    console.log('Done applying')
+
+    fetch('/submit', {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        rapName: this.state.rapName,
+        email: this.state.email,
+        albumSales: this.state.albumSales,
+        topAlbum: this.state.topAlbum,
+        startDate: this.state.startDate.getTime(),
+      }),
+    }).then(response => response.text())
+      .then(responseText => console.log(responseText));
   }
 
   render(){
@@ -94,26 +120,47 @@ class App extends React.Component {
           </div>
 
           <div className='card swanky-input-container'>
+            <span className='title'>Top Album</span>
+            <div className='album-dropdown-base' onClick={this.toggleAlbumMenu}>
+              {this.state.topAlbum === null ? (
+                <span>Select the best Snoop Album</span>
+              ) : (
+                [
+                  <img key='img' src={this.state.topAlbum.cover}
+                       alt={this.state.topAlbum.name}/>,
+                  <span key='year'>{this.state.topAlbum.year}</span>,
+                  <span key='name'>{this.state.topAlbum.name}</span>
+                ]
+              )}
+              <span className='dropdown-arrow'>
+                    {this.state.albumMenuOpen ? '▲' : '▼'}
+              </span>
+            </div>
+            {
+              this.state.albumMenuOpen ? (
+                <ul className='album-menu'>
+                  {
+                    snoopAlbums.map((album)=> (
+                      <li key={album.name} onClick={()=> this.selectAlbum(album)}>
+                        <img src={album.cover}/>
+                        <span>{album.year}</span>
+                        <span>{album.name}</span>
+                      </li>
+                    ))
+                  }
+                </ul>
+              ) : null
+            }
+          </div>
+
+          <div className='card swanky-input-container'>
             <label>
-              <span className='title'>Top Album</span>
-              <div className='album-dropdown-base'>
-                {this.state.topAlbum === null ? (
-                  <span>Select the best Snoop Album</span>
-                ) : (
-                  <>
-                    <img src={this.state.topAlbum.cover}
-                         alt={this.state.topAlbum.name}/>
-                    <span>{this.state.topAlbum.year}</span>
-                    <span>{this.state.topAlbum.name}</span>
-                  </>
-                )}
-                <span className='dropdown-arrow'
-                      onClick={this.toggleAlbumMenu}>
-                      {this.state.albumMenuOpen ? '▲' : '▼'}
-                </span>
-              </div>
+              <DatePicker selected={this.state.startDate}
+                          onChange={this.setStartDate} />
+              <span className='title'>Start Date</span>
             </label>
           </div>
+
 
           <div className='done-container'>
             <button className='done-button' onClick={this.toggleModal}> Done </button>
